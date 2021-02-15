@@ -14,7 +14,7 @@ const mail = require('./routes/mail')
 
 
 //settings
-app.set('port', process.env.PORT || 5003);
+app.set('port', process.env.PORT || 5124);
 
 //middlewares
 app.use(morgan('dev'));
