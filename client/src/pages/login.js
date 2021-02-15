@@ -10,7 +10,7 @@ const Login = () => {
     
  function login(values){
 
-    Axios.get("http://localhost:5002/login?" + new URLSearchParams({
+    Axios.get("/login?" + new URLSearchParams({
    
         contrasena: values.contrasena,
         correo: values.correo

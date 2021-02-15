@@ -3,9 +3,6 @@ const router = Router();
 const jwt = require('jsonwebtoken')
 const users = require('../models/users')
 
-/* router.get('/', (req,res)=>{
-    res.send('working')
-}) */
 
 
 //Registrar un nuevo usuario
@@ -70,6 +67,33 @@ router.put('/newTask', async (req, res) => {
 
 })
 
+//Editar Tareas
+router.put('/editTask', async (req, res) => {
+    const {  index, id_tarea, nombre_tarea, prioridad, fecha_vencimiento, estado, imagen } = req.body
+    const { id } = req.query
+    const StringTareas= 'tareas.'+index
+    const tarea={}
+    tarea[StringTareas] = {
+            "nombre_tarea": nombre_tarea,
+            "prioridad": prioridad,
+            "fecha_vencimiento": fecha_vencimiento,
+            "estado":estado,
+            "imagen": imagen
+    }
+    
+    try {
+        console.log(tarea)
+         let user=  await users.update({"_id":id}, {$set:tarea})
+         
+        
+         res.send(user)
+    } catch (error) {
+        console.log(error)
+    }
+
+
+})
+
 //Ver todas las tareas de un usuario
 router.get('/viewTasks', async (req, res) => {
 
@@ -81,7 +105,7 @@ router.get('/viewTasks', async (req, res) => {
 
             res.send(err)
         }
-        console.log(result)
+        
         res.send(result)
     });
 
@@ -110,7 +134,8 @@ router.get('/viewTasksDate', async (req, res) => {
 
     const { id } = req.query;
 try {
-    const user = await users.find({_id:id}, {_id:false, tareas: {$elemMatch: {fecha_vencimiento:{$gte:new Date()}}}})
+    console.log(Date())
+    const user = await users.find({_id:id}, {_id:false, tareas: {$elemMatch: {fecha_vencimiento:{$lt:new Date()}}}})
     res.send(user)
 } catch (error) {
     res.send(error)
@@ -121,12 +146,37 @@ try {
 
 //Marcar tarea como terminada
 
-router.get('/taskDone', async (req, res) => {
+router.put('/taskDone', async (req, res) => {
 
-    const { id } = req.query;
-    const { id_tarea }= req.body
+    const {id} = req.params
+    const { id_tarea, index }= req.body
+    const StringTareas= 'tareas.'+index+'.estado'
+    const tarea={}
+    tarea[StringTareas] = true
 try {
-    const user = await users.find({_id:id}, { tareas: {$elemMatch: {_id:id_tarea}}})
+
+    console.log(tarea)
+    const user = await users.update({"tareas._id": id_tarea},{$set:tarea})
+    res.send(user)
+} catch (error) {
+    res.send(error)
+}
+    
+
+})
+
+//desmarcar tarea terminada
+router.put('/reverseTaskDone', async (req, res) => {
+
+    
+    const { id_tarea, index }= req.body
+    const StringTareas= 'tareas.'+index+'.estado'
+    const tarea={}
+    tarea[StringTareas] = false
+try {
+
+    
+    const user = await users.update({"tareas._id": id_tarea},{$set:tarea})
     res.send(user)
 } catch (error) {
     res.send(error)

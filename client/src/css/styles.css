@@ -50,6 +50,17 @@
     border-radius: 8%;
 }
 
+.terminado{
+    background-color: rgb(138, 138, 138);
+    padding:8px;
+    border-radius: 8%;
+}
+
+.titulo-task{
+    font-size: 25px;
+    font-family: cursive;
+}
+
 .container-nombre{
     width:80%
 }
