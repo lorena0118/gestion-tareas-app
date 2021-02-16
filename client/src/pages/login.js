@@ -25,11 +25,17 @@ const Login = () => {
         }
     })     
     }
+function registro(){
+    window.location.href('/signup')
+}
+
     return (
         <div className="main-container">
             <div className="row-container container1">
                 <h1>¡Mi lista de pendientes!</h1> <br/>
                 <img className="main-image" src="https://sanidad.sepca.es/wp-content/uploads/2017/12/checklist-2024181_640.png" alt="Imagen principal"/>
+                <br/><br/><h3>¿No tiene cuenta aún?</h3>
+                <button className="btn btn btn-info" type="button" onClick={()=>registro()}>Registrarse aquí</button>
             </div>
             <div className="row-container container2">
                <Formik 
