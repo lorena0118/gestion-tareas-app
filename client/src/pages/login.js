@@ -26,7 +26,7 @@ const Login = () => {
     })     
     }
 function registro(){
-    window.location.href('/signup')
+    window.location.href='/signup'
 }
 
     return (
